@@ -1,0 +1,26 @@
+= form_for [@hospital, @patient, @medication] do |f|
+  = if f.object.errors.messages.length > 0
+    <!-- Render the errors to the user -->
+    = f.object.errors.messages.inspect  
+    %br
+      -f.object.errors.messages.each do |key, value| 
+        -value.each do |message| 
+          = key = message 
+          %br
+  %h4= f.label :name
+  %p= f.text_field :name, class: 'form-control focusedInput', placeholder: 'Add Name Here...'
+  %br
+  %h4= f.label :description
+  %p= f.text_area :description, class: 'form-control ', placeholder: 'Description...', rows: '3'
+  %br
+  %p=f.submit "Add Medication", class: 'btn btn-success btn-block'
+  %ul.breadcrumb
+    %li
+      %a{:href => "../"} Tracker Home
+    %li
+      %a{:href => "/hospitals"} Hospital Hub
+    %li
+      = link_to 'Hospital Homepage', hospital_path(@hospital)
+    %li
+      = link_to 'Patient Profile (back)', hospital_patient_path(@hospital,@patient)
+    %li.active New Medication

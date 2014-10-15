@@ -1,0 +1,33 @@
+!!!
+%html
+  %head
+    %title Day12Hw
+    = stylesheet_link_tag    'application', media: 'all'
+    = javascript_include_tag 'application'
+    = csrf_meta_tags
+    %html{:lang => "en"}
+  %body
+  .navbar.navbar-default.navbar-fixed-top
+    .container
+      .navbar-header
+        %a.navbar-brand{:href => "../"} Patient Tracker
+        %button.navbar-toggle{"data-target" => "#navbar-main", "data-toggle" => "collapse", :type => "button"}
+          %span.icon-bar
+          %span.icon-bar
+          %span.icon-bar
+        %ul.nav.navbar-nav.navbar-right
+          %li.dropdown
+            %a#download.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+              Login
+              %span.caret
+            %ul.dropdown-menu{"aria-labelledby" => "download"}
+              %li
+                = user_login_links
+  .container
+    %p.notice= notice
+    %p.alert= alert
+    %div.notice.text-danger
+    = yield
+    %h5 Powered by Michael W. Dion
+    %footer 
+

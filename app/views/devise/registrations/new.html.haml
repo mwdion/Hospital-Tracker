@@ -1,0 +1,23 @@
+%h2 Sign up
+= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+  = devise_error_messages!
+  %div
+    = f.label :email
+    %br/
+    = f.email_field :email, autofocus: true, class: 'form-control focusedInput', placeholder: 'Enter Email Here...'
+  %div
+    = f.label :password
+    - if @validatable
+      %i
+        (#{@minimum_password_length} characters minimum)
+    %br/
+    = f.password_field :password, autocomplete: "off", class: 'form-control focusedInput', placeholder: 'Enter Password Here...'
+  %div
+    = f.label :password_confirmation
+    %br/
+    = f.password_field :password_confirmation, autocomplete: "off", class: 'form-control focusedInput', placeholder: 'Re-Enter Password to Confirm...'
+  %div= f.submit "Sign up", class: 'btn btn-success btn-block'
+
+=link_to "Tracker Home", root_path, class: "btn btn-primary btn-block"
+
+= render "devise/shared/links"

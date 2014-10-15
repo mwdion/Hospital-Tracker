@@ -1,0 +1,19 @@
+%h1 Medication Profile
+%p Name: #{@medication.name}
+%p Description: #{@medication.description}
+
+
+= link_to "| Edit Medication |", edit_hospital_patient_medication_path(@hospital, @patient, @medication), class: "btn btn-xs btn-warning"
+= link_to " Delete Medication |", hospital_patient_medication_path(@hospital, @patient, @medication), method: :delete, class: "btn btn-xs btn-danger"
+%br 
+%br
+%ul.breadcrumb
+  %li
+    %a{:href => "../"} Tracker Home
+  %li
+    %a{:href => "/hospitals"} Hospital Hub
+  %li
+    = link_to 'Hospital Homepage', hospital_path(@hospital)
+  %li
+    = link_to 'Patient Profile (back)', hospital_patient_path(@hospital,@patient)
+  %li.active Medication Profile

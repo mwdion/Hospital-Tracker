@@ -1,0 +1,10 @@
+%h1 Medication Profile
+%p Name: #{@medication.name}
+%br
+%p Description: #{@medication.description}
+
+
+= link_to "| Edit Medication |", edit_hospital_patient_medication_path(@hospital, @patient, @medication)
+= link_to " Delete Medication |", hospital_patient_medication_path(@hospital, @patient, @medication), method: :delete 
+%br 
+%h3= link_to "| Tracker Home |", root_path

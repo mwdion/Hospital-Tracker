@@ -1,0 +1,48 @@
+%h1 Hospital Profile
+%h4 Name: #{@hospital.name}
+%h4 Description: #{@hospital.description}
+%h4 Location: 
+%img{:src => "http://maps.googleapis.com/maps/api/staticmap?center=#{@hospital.latitude},#{@hospital.longitude}&zoom=11&size=800x200"}/
+%br
+= link_to "| Edit Hospital |", edit_hospital_path(@hospital), class: "btn btn-xs btn-warning"
+= link_to "| Delete Hospital |", hospital_path(@hospital), method: :delete, class: "btn btn-xs btn-danger"
+%br
+%br
+= form_for @doctor, url: create_doctor_hospital_path(@hospital) do |f|
+  %h4= f.label :name, "Doctor Name"
+  %p= f.text_field :name, class: 'form-control focusedInput', placeholder: 'Add Name Here...'
+  %p= f.submit "Add Doctor", class: 'btn btn-success btn-block'
+
+%br
+%h4 List of Doctors
+- @hospital.doctors.each do |doctor|
+  - if doctor.name 
+    %p= doctor.name
+    = link_to "| Delete Doctor |", delete_doctor_hospital_path(@hospital, doctor_id: doctor.id), method: :delete, class: "btn btn-xs btn-danger"
+    %br
+    %br
+= link_to " Add Patient ", new_hospital_patient_path(@hospital), class: "btn btn-success btn-block"
+%br
+= text_field_tag '', '', class: "patient_search form-control focusedInput", placeholder: 'Search...'
+= link_to "Search Patients", 'javascript:void(0);', class: "search_patients btn btn btn-primary btn-block"
+%ul.search_list
+-group_number = 0
+%ul
+  - @hospital.patients.each_slice(10) do |group_patient|
+    -group_number += 1
+    -group_patient.each do |patient|
+      %li{class: "#{'hidden' if group_number >= 2} group_#{group_number} patient_list"}
+        = link_to "#{patient.last_name}, #{patient.first_name}", hospital_patient_path(@hospital, patient)        
+        %br
+  -group_number.times do |x| 
+    =link_to x + 1, 'javascript:void(0);', class: "new_page"
+
+%ul.breadcrumb
+  %li
+    %a{:href => "../"} Tracker Home
+  %li
+    %a{:href => "/hospitals"} Hospital Hub
+  %li.active New Hospital
+
+      
+

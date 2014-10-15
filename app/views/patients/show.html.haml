@@ -1,0 +1,48 @@
+%h1 Patient Profile
+%p First Name: #{@patient.first_name}
+%p Last Name: #{@patient.last_name}
+%p Gender: #{@patient.gender}
+%p Date of Birth: #{@patient.DOB}
+%p Notes: #{@patient.description}
+%ul.status_list
+  =render "workflow_partial", patient: @patient 
+%input{type: "hidden", value: @hospital.id, class: "hospital_id"}
+%input{type: "hidden", value: @patient.id, class: "patient_id"}
+%br 
+%br
+= link_to "| Edit Patient |", edit_hospital_patient_path(@hospital, @patient), class: 'btn btn-s btn-warning'
+= link_to "| Delete Patient |", hospital_patient_path(@hospital, @patient), method: :delete, class: 'btn btn-s btn-danger'
+%br
+%br
+- @patient.doctors.each do |doctor|
+  - if doctor.name 
+    %p= doctor.name
+    = link_to "| Delete Doctor |", delete_doctor_hospital_patient_path(@hospital, @patient, doctor_id: doctor.id), method: :delete, class: "btn btn-xs btn-danger"
+    %br
+  %br
+= form_for @doctor, url: create_doctor_hospital_patient_path(@hospital, @patient) do |f|
+  = f.label :name
+  = f.text_field :name, class: 'form-control focusedInput', placeholder: 'Add Name Here...'
+  = f.submit "Add Doctor", class: 'btn btn-success btn-block'
+%br
+%br
+= link_to "Add Medication", new_hospital_patient_medication_path(@hospital, @patient), class: 'btn btn-success'
+%br
+-group_number = 0
+%ul
+  - @patient.medications.each_slice(5) do |group_medication|
+    -group_number += 1
+    -group_medication.each do |medication|
+      %li{class: "#{'hidden' if group_number >= 2} group_#{group_number} medication_list"}
+        = link_to "#{medication.name}", hospital_patient_medication_path(@hospital, @patient, medication)
+        %br
+  -group_number.times do |x| 
+    =link_to x + 1, 'javascript:void(0);', class: "new_page"
+%ul.breadcrumb
+  %li
+    %a{:href => "../"} Tracker Home
+  %li
+    %a{:href => "/hospitals"} Hospital Hub
+  %li
+    = link_to 'Hospital Homepage (back)', hospital_path(@hospital)
+  %li.active Patient Profile

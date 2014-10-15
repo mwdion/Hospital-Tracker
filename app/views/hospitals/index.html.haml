@@ -1,0 +1,20 @@
+%h1 Welcome to the Hospital Hub
+%h2 Hospitals
+%ul
+-group_number = 0
+%ul.col
+  - @hospital.all.each_slice(10) do |group_hospital|
+    -group_number += 1
+    -group_hospital.each do |hospital|
+      %li{class: "#{'hidden' if group_number >= 2} group_#{group_number} hospital_list"}
+        =link_to hospital.name, hospital_path(hospital)
+        %br
+  -group_number.times do |x| 
+    =link_to x + 1, 'javascript:void(0);', class: "new_page"
+
+= link_to "Create Hospital", new_hospital_path, class: "btn btn-success btn-block"
+=link_to "Tracker Home", root_path, class: "btn btn-primary btn-block"
+
+
+
+

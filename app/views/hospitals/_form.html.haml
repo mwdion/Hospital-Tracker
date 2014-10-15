@@ -1,0 +1,18 @@
+= form_for @hospital do |f|
+  = if f.object.errors.messages.length > 0
+    <!-- Render the errors to the user -->
+    = f.object.errors.messages.inspect  
+    %br
+      -f.object.errors.messages.each do |key, value| 
+        -value.each do |message| 
+          = key = message 
+          %br
+  = f.label :name
+  = f.text_field :name, class: 'form-control focusedInput', placeholder: 'Add Name Here...'
+  %br
+  = f.label :description
+  = f.text_area :description, class: 'form-control ', placeholder: 'Description...', rows: '3'
+  = f.label :address
+  = f.text_area :address, class: 'form-control ', placeholder: 'Address...', rows: '3'
+  %br
+  =f.submit "Create Hospital", class: 'btn btn-success btn-block'
